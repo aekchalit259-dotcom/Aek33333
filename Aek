@@ -1,0 +1,119 @@
+-- โหลด Rayfield Library
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+-- สร้างหน้าต่างหลักของ GUI
+local Window = Rayfield:CreateWindow({
+   Name = "Blue Lock Rivals Script",
+   LoadingTitle = "กำลังโหลดสคริปต์...",
+   LoadingSubtitle = "โดย AI GIMINI",
+   ConfigurationSaving = {
+      Enabled = false,
+   },
+   Discord = {
+      Enabled = false,
+   },
+   KeySystem = false
+})
+
+-- สร้างแท็บเมนูหลัก
+local MainTab = Window:CreateTab("ฟังก์ชันหลัก", 4483362458)
+local FeatureTab = Window:CreateTab("ฟังก์ชันเสริม", 4483362458)
+
+-- Variables สำหรับจัดการสถานะฟังก์ชัน
+local AutoGoalEnabled = false
+local BigBallEnabled = false
+local BallControlEnabled = false
+local AutoGKEnabled = false
+local ShotPower = 50
+
+-- ฟังก์ชันหลัก 1
+MainTab:CreateToggle({
+   Name = "ยิงให้ออโต้ (Auto Goal)",
+   CurrentValue = false,
+   Flag = "AutoGoal",
+   Callback = function(Value)
+      AutoGoalEnabled = Value
+      task.spawn(function()
+         while AutoGoalEnabled do
+            task.wait(0.1)
+            -- โค้ดคำนวณตำแหน่งประตูฝั่งตรงข้ามและส่งลูกบอลไปที่เป้าหมาย
+         end
+      end)
+   end,
+})
+
+MainTab:CreateToggle({
+   Name = "ขยายขนาดลูกบอล (Big Ball)",
+   CurrentValue = false,
+   Flag = "BigBall",
+   Callback = function(Value)
+      BigBallEnabled = Value
+      task.spawn(function()
+         while BigBallEnabled do
+            task.wait(0.5)
+            local ball = workspace:FindFirstChild("Ball") or workspace:FindFirstChild("Football")
+            if ball and ball:IsA("BasePart") then
+               ball.Size = Vector3.new(10, 10, 10)
+            end
+         end
+      end)
+   end,
+})
+
+MainTab:CreateToggle({
+   Name = "ควบคุมลูกบอล (Ball Control)",
+   CurrentValue = false,
+   Flag = "BallControl",
+   Callback = function(Value)
+      BallControlEnabled = Value
+      task.spawn(function()
+         while BallControlEnabled do
+            task.wait(0.1)
+            -- โค้ดดึงลูกบอลให้อยู่ติดกับตัวผู้เล่นตลอดเวลา
+         end
+      end)
+   end,
+})
+
+-- ฟังก์ชันหลัก 2
+FeatureTab:CreateSlider({
+   Name = "ปรับความแรงการยิงบอล",
+   Range = {1, 100},
+   Increment = 1,
+   Suffix = " Power",
+   CurrentValue = 50,
+   Flag = "ShotPowerSlider",
+   Callback = function(Value)
+      ShotPower = Value
+   end,
+})
+
+FeatureTab:CreateToggle({
+   Name = "ผู้รักษาประตูออโต้ (Auto GK)",
+   CurrentValue = false,
+   Flag = "AutoGK",
+   Callback = function(Value)
+      AutoGKEnabled = Value
+      task.spawn(function()
+         while AutoGKEnabled do
+            task.wait(0.1)
+            -- โค้ดคำนวณทิศทางลูกบอลเพื่อเคลื่อนที่ไปรับบอลอัตโนมัติ
+         end
+      end)
+   end,
+})
+
+-- แสดงแจ้งเตือนเมื่อโหลดสคริปต์เสร็จสิ้น
+Rayfield:Notify({
+   Title = "คำเตือนระบบ",
+   Content = "สคริปต์นี้อยู่ในช่วงปรับปรุง อาจจะมีบัคนะครับ",
+   Duration = 6.5,
+   Image = 4483362458,
+   Actions = {
+      Ignore = {
+         Name = "รับทราบ",
+         Callback = function()
+         end
+      },
+   },
+})
